@@ -40,6 +40,10 @@ Microsoft's current VM requirements list at least 4 GB guest RAM, 64 GB guest st
 
 Use a dynamic virtual disk and keep substantial free space on the tablet. The virtual disk's 64 GB maximum is not instantly consumed by a sparse image, but the used space grows as Windows is installed and updated.
 
+## Проверка без Root и Shizuku
+
+Дополнительно запусти [scripts/check-unrooted.sh](../scripts/check-unrooted.sh) обычным пользователем и, если Shizuku установлен, повтори его через Shizuku. Инструкции и ограничения описаны в [ROOTLESS_AND_SHIZUKU.md](ROOTLESS_AND_SHIZUKU.md). Сравнение результатов покажет, видит ли shell-процесс узлы виртуализации; это не заменяет тест создания VM.
+
 ## Expected next decision
 
 - If the diagnostic shows an accessible KVM/Gunyah node, test the runtime with the engine's own compatibility probe before creating a Windows disk.
