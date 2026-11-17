@@ -5,10 +5,11 @@
 ## Состояние проекта
 
 - Подключён исходный движок DroidVM как Git submodule в `engine/DroidVM` (зафиксированная версия upstream).
-- Добавлены скрипт проверки виртуализации для Android и инструкция специально для Redmi Pad 2 Pro.
+- Добавлены read-only диагностики аппаратной виртуализации от Root и обычного пользователя, а также отдельная инструкция по ограничениям Shizuku/rootless.
 - Добавлен GitHub Actions workflow для сборки debug APK. CI build tested successfully with the upstream API 37 configuration; lowering compileSdk to API 36 causes Compose 1.12.0 dependency checks to fail.
 - На первом этапе APK использует исходный интерфейс и package name DroidVM; отдельный фирменный интерфейс Win11 Android Emulator ещё не разработан.
-- Сам факт успешной сборки APK **не означает**, что планшет сможет запустить VM: это зависит от доступности гипервизора в ядре и root-разрешений.
+- В upstream DroidVM документирован QEMU Software Emulation, но запуск его демона всё ещё требует Root. Shizuku не является Root; rootless-запуск требует переработки демона и процесса управления VM. См. [инструкцию по rootless/Shizuku](docs/ROOTLESS_AND_SHIZUKU.md).
+- Сам факт успешной сборки APK **не означает**, что планшет сможет запустить VM: это зависит от доступности гипервизора в ядре и прав процесса.
 
 ## Совместимость с Redmi Pad 2 Pro
 
