@@ -4,9 +4,12 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENGINE="$ROOT/engine/DroidVM"
 
-if [[ ! -d "$ENGINE" ]]; then
-  echo "DroidVM submodule is missing. Initializing submodules..."
-  git -C "$ROOT" submodule update --init --recursive
+# Initialize both the pinned DroidVM engine and its nested native/prebuilt dependencies.
+git -C "$ROOT" submodule update --init --recursive
+
+if [[ ! -f "$ENGINE/gradlew" ]]; then
+  echo "DroidVM Gradle wrapper is missing after submodule initialization." >&2
+  exit 1
 fi
 
 if [[ ! -x "$ENGINE/gradlew" ]]; then
@@ -14,7 +17,7 @@ if [[ ! -x "$ENGINE/gradlew" ]]; then
 fi
 
 cd "$ENGINE"
-echo "Building DroidVM debug APK..."
+echo "Building upstream DroidVM debug APK..."
 ./gradlew --no-daemon assembleDebug
 
 APK="$ENGINE/app/build/outputs/apk/debug/app-debug.apk"
