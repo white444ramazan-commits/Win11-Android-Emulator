@@ -29,7 +29,7 @@ jobs:
 
       # GitHub's current hosted images already include Android command-line tools.
       # Avoid setup-android@v3: it requests the removed legacy SDK package "tools".
-      - name: Install Android build components
+      - name: Install Android build components (license pipe hardened)
         shell: bash
         run: |
           SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -path '*/bin/sdkmanager' | sort -V | tail -n 1)"
