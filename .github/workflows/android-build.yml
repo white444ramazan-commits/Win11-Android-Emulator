@@ -37,7 +37,11 @@ jobs:
             echo "Android sdkmanager was not found under $ANDROID_HOME/cmdline-tools" >&2
             exit 1
           fi
+          # sdkmanager closes the pipe after accepting its prompts; without
+          # disabling pipefail, yes exits with SIGPIPE and incorrectly fails the job.
+          set +o pipefail
           yes | "$SDKMANAGER" --licenses
+          set -o pipefail
           "$SDKMANAGER" --install 'platforms;android-37' 'cmake;3.22.1' 'ndk;28.2.13676358'
 
       - name: Build debug APK
