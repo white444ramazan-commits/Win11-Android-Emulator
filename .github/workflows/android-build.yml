@@ -12,6 +12,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - name: Checkout including engine submodules
         uses: actions/checkout@v4
@@ -24,11 +27,18 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
+      # GitHub's current hosted images already include Android command-line tools.
+      # Avoid setup-android@v3: it requests the removed legacy SDK package "tools".
       - name: Install Android build components
-        run: sdkmanager 'platforms;android-37' 'cmake;3.22.1' 'ndk;28.2.13676358'
+        shell: bash
+        run: |
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -path '*/bin/sdkmanager' | sort -V | tail -n 1)"
+          if [[ -z "$SDKMANAGER" ]]; then
+            echo "Android sdkmanager was not found under $ANDROID_HOME/cmdline-tools" >&2
+            exit 1
+          fi
+          yes | "$SDKMANAGER" --licenses
+          "$SDKMANAGER" --install 'platforms;android-37' 'cmake;3.22.1' 'ndk;28.2.13676358'
 
       - name: Build debug APK
         working-directory: engine/DroidVM
