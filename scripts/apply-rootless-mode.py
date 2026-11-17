@@ -318,17 +318,21 @@ import cn.classfun.droidvm.lib.utils.ExecutionMode;"""
 )
 replace_once(
     "java/cn/classfun/droidvm/ui/vm/edit/basic/VMEditBasicTab.java",
-    """        chooseBackend.configure(VMBackend.class, VMBackend.DEFAULT);
-        chooseHypervisor.configure(
-            VMHypervisor.class, VMHypervisor.defaultForNewVm(VMBackend.DEFAULT));
-        parent.put("backend", VMBackend.DEFAULT);""",
+    """        chooseBackend.configure(VMBackend.class, VMBackend.DEFAULT);""",
     """        var defaultBackend = ExecutionMode.isRootless() ? VMBackend.QEMU : VMBackend.DEFAULT;
         chooseBackend.configure(VMBackend.class, defaultBackend);
         if (ExecutionMode.isRootless())
-            chooseBackend.setVisibility(GONE);
-        chooseHypervisor.configure(
-            VMHypervisor.class, VMHypervisor.defaultForNewVm(defaultBackend));
-        parent.put("backend", defaultBackend);"""
+            chooseBackend.setVisibility(GONE);"""
+)
+replace_once(
+    "java/cn/classfun/droidvm/ui/vm/edit/basic/VMEditBasicTab.java",
+    """VMHypervisor.class, VMHypervisor.defaultForNewVm(VMBackend.DEFAULT));""",
+    """VMHypervisor.class, VMHypervisor.defaultForNewVm(defaultBackend));"""
+)
+replace_once(
+    "java/cn/classfun/droidvm/ui/vm/edit/basic/VMEditBasicTab.java",
+    """        parent.put("backend", VMBackend.DEFAULT);""",
+    """        parent.put("backend", defaultBackend);"""
 )
 
 # Do not offer hardware hypervisors or hidden root-dependent paths to rootless VMs.
