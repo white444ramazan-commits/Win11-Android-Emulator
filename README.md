@@ -6,7 +6,7 @@
 
 - Подключён исходный движок DroidVM как Git submodule в `engine/DroidVM` (зафиксированная версия upstream).
 - Добавлены скрипт проверки виртуализации для Android и инструкция специально для Redmi Pad 2 Pro.
-- Добавлен GitHub Actions workflow для сборки debug APK.
+- Добавлен GitHub Actions workflow для сборки debug APK; CI временно подменяет compileSdk/targetSdk upstream-движка с API 37 на опубликованный стабильный API 36 до появления пакета API 37.
 - На первом этапе APK использует исходный интерфейс и package name DroidVM; отдельный фирменный интерфейс Win11 Android Emulator ещё не разработан.
 - Сам факт успешной сборки APK **не означает**, что планшет сможет запустить VM: это зависит от доступности гипервизора в ядре и root-разрешений.
 
