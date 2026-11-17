@@ -44,6 +44,9 @@ jobs:
           set -o pipefail
           "$SDKMANAGER" --install 'platforms;android-36' 'cmake;3.22.1' 'ndk;28.2.13676358'
 
+      - name: Apply experimental rootless QEMU mode
+        run: python3 scripts/apply-rootless-mode.py
+
       - name: Build debug APK
         working-directory: engine/DroidVM
         run: ./gradlew --no-daemon assembleDebug

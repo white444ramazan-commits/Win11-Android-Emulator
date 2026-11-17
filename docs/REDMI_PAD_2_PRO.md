@@ -45,3 +45,10 @@ Use a dynamic virtual disk and keep substantial free space on the tablet. The vi
 - If the diagnostic shows an accessible KVM/Gunyah node, test the runtime with the engine's own compatibility probe before creating a Windows disk.
 - If no usable hypervisor is exposed, this device cannot use the fast virtualization path. A QEMU TCG fallback would require a separately built and tested Android-native backend and is likely to be substantially slower; do not assume it will be usable for Windows 11.
 - Do not flash a generic kernel, boot image, or third-party virtualization module as a workaround.
+
+
+## Rootless test path (experimental)
+
+The experimental branch can start the QEMU daemon as the app UID when `su` is unavailable. It forces QEMU TCG, disables root-only memory tuning and TAP setup, and uses QEMU user networking. Create a VM with the QEMU backend and software hypervisor. Existing VMs configured for crosvm or hardware hypervisors must be recreated or changed to QEMU/Software. Performance can be too low for a usable Windows 11 desktop. USB passthrough and bridged networking are not supported in this mode.
+
+The mode has not been validated on physical hardware. A successful APK build only verifies compilation, not guest boot or service survival on a Xiaomi firmware.

@@ -7,6 +7,9 @@ ENGINE="$ROOT/engine/DroidVM"
 # Initialize both the pinned DroidVM engine and its nested native/prebuilt dependencies.
 git -C "$ROOT" submodule update --init --recursive
 
+# Apply the experimental no-Root QEMU/TCG overlay to the pinned engine.
+python3 "$ROOT/scripts/apply-rootless-mode.py"
+
 if [[ ! -f "$ENGINE/gradlew" ]]; then
   echo "DroidVM Gradle wrapper is missing after submodule initialization." >&2
   exit 1
