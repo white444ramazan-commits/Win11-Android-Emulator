@@ -276,29 +276,11 @@ replace_once(
     """    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />"""
 )
-replace_once(
-    "AndroidManifest.xml",
-    """    <application
-        android:name=".DroidVMApp\"""",
-    """    <application
-        android:name=".DroidVMApp\""""
-)
 # Insert the service just before the first activity declaration.
 replace_once(
     "AndroidManifest.xml",
-    """        <activity
-            android:name=".ui.SplashActivity\"""",
-    """        <service
-            android:name=".daemon.RootlessDaemonService"
-            android:exported="false"
-            android:foregroundServiceType="specialUse">
-            <property
-                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Keeps a user-started local virtual machine running" />
-        </service>
-
-        <activity
-            android:name=".ui.SplashActivity\""""
+    '        <activity\n            android:name=".ui.SplashActivity"',
+    '        <service\n            android:name=".daemon.RootlessDaemonService"\n            android:exported="false"\n            android:foregroundServiceType="specialUse">\n            <property\n                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"\n                android:value="Keeps a user-started local virtual machine running" />\n        </service>\n\n        <activity\n            android:name=".ui.SplashActivity"'
 )
 
 # In rootless mode, only show software acceleration as an available hypervisor.
